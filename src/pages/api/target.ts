@@ -1,4 +1,4 @@
-import { prisma } from "@/server/db";
+// import { prisma } from "@/server/db";
 import { NextApiRequest } from "next";
 import { NextApiResponseServerIO } from "@/types/next";
 
@@ -10,17 +10,17 @@ export default async function TargetHandler(
     if (req.method !== "POST")
       return res.status(405).json({ error: "Method not allowed" });
 
-    const data = req.body;
+    const panic = req.body;
 
-    const newEntry = await prisma.entry.create({
-      data: {
-        json: JSON.stringify(data),
-      },
-    });
+    // const newEntry = await prisma.entry.create({
+    //   data: {
+    //     json: JSON.stringify(data),
+    //   },
+    // });
 
-    res.socket.server.io.emit("new-entry", newEntry);
+    res.socket.server.io.emit("new-panic", panic);
 
-    return res.status(200).json(data);
+    return res.status(200).json(panic);
   } catch (error) {
     return res.status(500).json(error);
   }

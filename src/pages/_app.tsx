@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <div className="font- flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col">
       <Navbar />
       <main className="flex flex-1 flex-col bg-white bg-gradient-to-br">
         <Component {...pageProps} />
