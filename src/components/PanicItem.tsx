@@ -1,7 +1,7 @@
-import { Panic } from "@/types/interfaces";
+import { PanicInfo } from "@/types/interfaces";
 
 interface PanicItemProps {
-  panic: Panic;
+  panic: PanicInfo;
   handleSee: (id: number) => void;
 }
 

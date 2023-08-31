@@ -12,6 +12,7 @@ export default function Navbar() {
             src={mesquitaWhiteLogo.src}
           />
         </div>
+        <h1 className="text-2xl font-bold tracking-wider text-center">OCORRÊNCIAS</h1>
       </div>
     </header>
   );
