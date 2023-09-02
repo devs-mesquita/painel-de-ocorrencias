@@ -4,17 +4,20 @@ import { v4 as uuid } from "uuid";
 
 import { useEffect, useState } from "react";
 import useSocket from "@/hooks/useSocket";
-import useLocalStorage from "@/hooks/useLocalStorage";
+//import useLocalStorage from "@/hooks/useLocalStorage";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 import type { PanicInfo } from "@/types/interfaces";
 import PanicItem from "@/components/PanicItem";
 
 export default function Home() {
-  const [panics, setPanics] = useState<PanicInfo[]>([
-    { id: 1, nome: "Teste 1", unidade: "Avenida 1" },
-    { id: 2, nome: "Teste 2", unidade: "Avenida 2" },
-    { id: 3, nome: "Teste 3", unidade: "Avenida 3" },
-  ]);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const [panics, setPanics] = useLocalStorage<PanicInfo[]>("received-panics", []);
 
   const [seenPanics, setSeenPanics] = useLocalStorage<number[]>(
     "seen-panics",
@@ -40,9 +43,7 @@ export default function Home() {
   }, [socket]);
 
   const handleSee = (id: number) => {
-    if (seenPanics && setSeenPanics instanceof Function) {
-      setSeenPanics((st) => [...st!, id]);
-    }
+    setSeenPanics((st) => [...st!, id]);
   };
 
   return (
@@ -53,18 +54,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex flex-1 flex-wrap items-baseline justify-around gap-4 py-8">
-        {seenPanics &&
-          panics
-            .filter((panic) => {
-              console.log(seenPanics);
-              if (seenPanics && typeof seenPanics === "object") {
-                return !seenPanics.includes(panic.id);
-              }
-              return true;
-            })
-            .map((panic) => (
-              <PanicItem key={uuid()} panic={panic} handleSee={handleSee} />
-            ))}
+        {isClient && panics.length > 0 && panics.filter((panic) => !seenPanics.includes(panic.id))
+          .map((panic) => (
+            <PanicItem key={uuid()} panic={panic} handleSee={handleSee} />
+          ))}
       </div>
     </>
   );
