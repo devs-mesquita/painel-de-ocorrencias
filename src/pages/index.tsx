@@ -73,7 +73,7 @@ export default function Home() {
       <button
         onClick={handleUndo}
         className="m-4 self-center rounded bg-roxo p-1 text-white hover:bg-indigo-600/80"
-        title="Retornar última ocorrência ocultada."
+        title="Restaurar última ocorrência ocultada."
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
